@@ -1,0 +1,26 @@
+name ----> vuk <-----
+
+var aaa int
+var bbb int
+
+
+set aaa -10(int/float) /bbb // int float char str
+
+jmp label 
+jma aaa label > 0
+...
+jmb aaa label < 0
+...
+
+jmc aaa label = 0
+...
+
+add aaa 1/bbb
+dec aaa 1/bbb
+
+print aaa
+
+label:
+...
+
+
