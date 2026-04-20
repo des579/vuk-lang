@@ -1,0 +1,58 @@
+Core representation
++ Fixed-size word type (e.g., 32-bit or 64-bit limbs)
++ Dynamic array/vector of limbs
+- Sign handling (signed vs unsigned)
+- Normalization (removing leading zeros)
+
+Basic arithmetic
+- Comparison (==, <, >)
++ Addition with carry
++ Subtraction with borrow
+- Bit shifts (left/right, arbitrary amount)
+
+Multiplication
+- Schoolbook multiplication
+- (Optional) Karatsuba multiplication
+- (Optional) Toom-Cook / FFT for very large sizes
+
+Division
+- Long division (quotient + remainder)
+- Division by single limb (fast path)
+
+Modular arithmetic
+- Modular addition/subtraction
+- Modular multiplication
+- Modular reduction
+- Montgomery reduction (important for performance)
+
+Exponentiation
+- Fast exponentiation (square-and-multiply)
+- Modular exponentiation
+- Number theory utilities
+
+- GCD (Euclidean algorithm)
+- Extended GCD (for modular inverse)
+- Modular inverse
+- Primality testing (e.g., Miller–Rabin)
+- Bit-level operations
+- Bit access (get/set)
+- Bit length
+- Count leading/trailing zeros
+- Conversions
+- From/to decimal string
+- From/to hex/binary
+- Serialization (byte arrays, endianness handling)
+- Randomness (for crypto use)
+- Random big integer generation
+- Random in range
+- Prime number generation
+- Performance optimizations (later)
+- Carry propagation optimizations
+- Limb size tuning
+- Avoiding unnecessary allocations
+- Constant-time operations (side-channel resistance)
+- Testing & correctness
+- Unit tests for all operations
+- Edge cases (0, 1, max values, carries)
+- Cross-check with known libraries
+
