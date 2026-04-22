@@ -9,13 +9,12 @@ int main() {
     bignum_t* num = create_bignum(UINT256);
     bignum_t* num2 = create_bignum(UINT256);
 
-    num->arr[3] = 0xfffffffffffffffe;
-    num2->arr[3] = 0xffffffffffffffff;
+    num->arr[2] = 0xffffffffffffffff;
 
     print_hex(num);
     printf("\n");
 
-    sub(num, num2);
+    bitshift_right(num, 63);
 
     print_hex(num);
     printf("\n");

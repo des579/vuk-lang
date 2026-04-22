@@ -9,8 +9,8 @@
 
 typedef struct {
     uint64_t *arr;
-    size_t arr_size;
-    size_t number_size;
+    uint8_t arr_size;
+    uint16_t number_size;
 } bignum_t;
 
 typedef unsigned __int128 __uint128;
