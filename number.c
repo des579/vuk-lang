@@ -61,13 +61,13 @@ int bitshift_left(bignum_t* num, size_t n) {
 
     size_t i;
     if (b != 0) {
-        for (i = num->arr_size - 1; i >= 0 ; i--) {
-            if (i - b < 0) {
-                num->arr[i] = 0;
+        for (i = 0; i < num->arr_size - 1; i++) {
+            if (num->arr_size - i - 1 - b < 0) {
+                num->arr[num->arr_size - i - 1] = 0;
                 continue;
             }
 
-            num->arr[i] = num->arr[i - b];
+            num->arr[num->arr_size - i - 1] = num->arr[num->arr_size - i - 1 - b];
         }
     }
 

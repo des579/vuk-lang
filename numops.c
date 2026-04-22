@@ -28,9 +28,9 @@ int sub(bignum_t* to, bignum_t* from) {
     if (!inversed) return -1;
 
     int carry = 1;
-    for (size_t i = 0; i < to->arr_size; i++) {
+    for (size_t i = 0; i < inversed->arr_size; i++) {
         if (!carry) break;
-        carry = __builtin_add_overflow(to->arr[i], carry, &to->arr[i]);
+        carry = __builtin_add_overflow(inversed->arr[i], carry, &inversed->arr[i]);
     }
 
     add(to, inversed);

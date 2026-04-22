@@ -9,20 +9,14 @@ int main() {
     bignum_t* num = create_bignum(UINT256);
     bignum_t* num2 = create_bignum(UINT256);
 
-    num->arr[3] = 0xffffffffffffffff;
-    num2->arr[3] = 0xfffffffffffffffe;
+    num->arr[3] = 0xfffffffffffffffe;
+    num2->arr[3] = 0xffffffffffffffff;
 
-    printf("removing...\n");
-    printf("  ");
     print_hex(num);
-    printf("\n");
-    printf("- ");
-    print_hex(num2);
     printf("\n");
 
     sub(num, num2);
-    printf("-----------------------------------------\n");
-    printf("  ");
+
     print_hex(num);
     printf("\n");
 
