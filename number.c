@@ -50,6 +50,77 @@ bignum_t* inverse(bignum_t* num) {
     return num;
 }
 
+int bitshift_left(bignum_t* num, size_t n) {
+    if (!num) return -1;
+    size_t b = n >> 6; // 011111 = 63 <- that is the remainder
+    size_t remainder = n && 63;
+
+    printf("n: %zu\n", n);
+    printf("b: %zu\n", b);
+    printf("remainder: %zu\n", remainder);
+
+    size_t i;
+    if (b != 0) {
+        for (i = num->arr_size - 1; i >= 0 ; i--) {
+            if (i - b < 0) {
+                num->arr[i] = 0;
+                continue;
+            }
+
+            num->arr[i] = num->arr[i - b];
+        }
+    }
+
+    if (remainder == 0) return 0;
+
+    uint64_t arr[num->arr_size];
+    for (size_t i = 0; i < num->arr_size; i++) {
+        arr[i] = num->arr[i];
+        num->arr[i] = 0;
+    }
+
+    for (i = num->arr_size - 1; i > 0 ; i--) {
+        num->arr[i] = (arr[i] << n) | (arr[i-1] >> (64 - n));
+    }
+    num->arr[i+1] = arr[i+1] << n; 
+    
+    return 0;
+}
+
+
+int bitshift_right(bignum_t* num, size_t n) {
+    if (!num) return -1;
+    size_t b = n >> 6; // 011111 = 63 <- that is the remainder
+    size_t remainder = b && 63;
+
+    size_t i;
+    for (i = 0; i < num->arr_size; i++) {
+        if (i + b >= num->arr_size) {
+            num->arr[i] = 0;
+            continue;
+        }
+
+        num->arr[i] = num->arr[i + b];
+    }
+
+    if (remainder == 0) return 0;
+
+    uint64_t arr[num->arr_size];
+    for (size_t i = 0; i < num->arr_size; i++) {
+        arr[i] = num->arr[i];
+        num->arr[i] = 0;
+    }
+
+
+    for (i = 0; i < num->arr_size - 1; i++) {
+        num->arr[i] = (arr[i] >> n) | (arr[i+1] << (64 - n));
+    }
+    num->arr[i+1] = arr[i+1] >> n; 
+    
+    return 0;
+}
+
+
 void print_bits(bignum_t* number) {
     for (size_t i = 0; i < number->arr_size; i++) {
         for (size_t j = 0; j < 63; j++) {
@@ -60,7 +131,7 @@ void print_bits(bignum_t* number) {
 
 void print_hex(bignum_t* number) {
     for (size_t i = 0; i < number->arr_size; i++) {
-        printf("%016" PRIx64, number->arr[i]);
+        printf("%016" PRIx64, number->arr[number->arr_size - i - 1]);
         printf(" ");
     }
 }
