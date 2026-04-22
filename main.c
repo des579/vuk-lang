@@ -6,36 +6,27 @@
 #include "numops.h"
 
 int main() {
-    bignum_t *number = create_bignum(UINT256);
-    bignum_t *number2 = create_bignum(UINT256);
-    number2->arr[1] = 0xffffffffffffffff;
+    bignum_t* num = create_bignum(UINT256);
+    bignum_t* num2 = create_bignum(UINT256);
 
-    add(number, number2);
-    print_hex(number);
+    num->arr[3] = 0xffffffffffffffff;
+    num2->arr[3] = 0xfffffffffffffffe;
+
+    printf("removing...\n");
+    printf("  ");
+    print_hex(num);
+    printf("\n");
+    printf("- ");
+    print_hex(num2);
     printf("\n");
 
-
-
-    add(number, number2);
-    print_hex(number);
+    sub(num, num2);
+    printf("-----------------------------------------\n");
+    printf("  ");
+    print_hex(num);
     printf("\n");
 
-    sub(number, number2);
-    print_hex(number);
-    printf("\n");
-
-    sub(number, number2);
-    print_hex(number);
-    printf("\n");
-
-    sub(number, number2);
-    print_hex(number);
-    printf("\n");
-//     add(number, number2);
-//     add(number, number2);
-
-
-    free_bignum(number);
-    free_bignum(number2);
+    free_bignum(num);
+    free_bignum(num2);
     return 0;
 }

@@ -25,4 +25,7 @@ bignum_t* create_copy(bignum_t* num);
 //    copying starts from rightmost (big endian)
 bignum_t* copy(bignum_t* to, bignum_t* from);
 
+int bitshift_left(bignum_t* num, size_t n);
+int bitshift_right(bignum_t* num, size_t n);
+
 #endif // NUMBER_H
