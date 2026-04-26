@@ -3,18 +3,23 @@ CFLAGS = -std=c11 -O2
 
 TARGET = vuk
 
-SRCS = main.c number.c numops.c
-OBJS = $(SRCS:.c=.o)
+BUILD_DIR = build
+CRYPR_DIR = src/cryptography
 
-all: $(TARGET)
+SRCS = $(wildcard $(CRYPR_DIR)/*.c)
+OBJS = $(patsubst $(CRYPR_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
 
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+all: $(BUILD_DIR)/$(TARGET)
 
-%.o: %.c
+$(BUILD_DIR)/$(TARGET): $(OBJS)
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) -o $@ $(OBJS)
+
+$(BUILD_DIR)/%.o: $(CRYPR_DIR)/%.c
+	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -rf $(BUILD_DIR)
 
 re: clean all
