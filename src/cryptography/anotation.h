@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#define PRINT_NUM(n) print_hex(n); printf("\n");
+
 #define UINT256 32
 #define UINT512 64
 #define UINT1024 128

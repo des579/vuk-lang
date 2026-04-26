@@ -18,15 +18,13 @@ int sub(bignum_t* to, bignum_t* from);
  */
 int strictmul(bignum_t* to, bignum_t* from);
 bignum_t* slow_mul(bignum_t* a, bignum_t* b);
-bignum_t* loselessymul(bignum_t* a, bignum_t* b);
-
 
 
 
 /*
  * number sizes must be equal, if they are not, then returns NULL
  */
-bignum_t* slow_div(bignum_t* a, bignum_t* b);
+bignum_t* slow_div(bignum_t* a, bignum_t* b, bignum_t* remainder);
 
  
 #endif // NUMBER_OPERATIONS_H

@@ -28,4 +28,16 @@ bignum_t* copy(bignum_t* to, bignum_t* from);
 int bitshift_left(bignum_t* num, size_t n);
 int bitshift_right(bignum_t* num, size_t n);
 
+
+// is a > b
+int is_bigger(bignum_t* a, bignum_t* b);
+
+// is a < b
+int is_lower(bignum_t* a, bignum_t* b);
+
+// is a == b
+int is_equals(bignum_t* a, bignum_t* b);
+
+
+
 #endif // NUMBER_H

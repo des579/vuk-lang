@@ -47,7 +47,7 @@ bignum_t* slow_mul(bignum_t* a, bignum_t* b) {
     if (!num || !adder) return NULL;
 
     for (size_t i = 0; i < b->number_size*8; i++) {
-        if (((b->arr[i >> 6] >> (i & 63)) & 1) == 0)
+        if (((b->arr[i >> 6] >> (i && 63)) & 1) == 0)
             continue;
 
         for (size_t j = 0; j < a->arr_size; j++) {
@@ -63,30 +63,29 @@ bignum_t* slow_mul(bignum_t* a, bignum_t* b) {
 }
 
 
-bignum_t* slow_div(bignum_t* a, bignum_t* b) {
-    if (!a || !b || a->arr_size != b->arr_size) return NULL;
+bignum_t* slow_div(bignum_t* a, bignum_t* b, bignum_t* remainder) {
+    if (!a || !b || a->arr_size != b->arr_size
+        || (remainder && a->arr_size != remainder->arr_size)) return NULL;
 
-    bignum_t* num = create_bignum(a->number_size);
-    bignum_t* adder = create_bignum(a->number_size);
-    if (!num || !adder) return NULL;
-
-    for (size_t i = 0; i < b->number_size*8; i++) {
-        if (((b->arr[i >> 6] >> (i & 63)) & 1) == 0)
-            continue;
-
-        printf("working when 1 at %lu...\n", i);
-        for (size_t j = 0; j < a->arr_size; j++) {
-            adder->arr[j] = a->arr[j];
-        }
-
-        bitshift_right(adder, i);
-        printf("adder: ");
-        print_hex(adder);
-        printf("\n");
-        add(num, adder);
+    bignum_t* num = create_bignum(a->arr_size * 8);
+    bignum_t* copy = create_copy(b);
+    if (!copy || !num) {
+        return NULL;
     }
-    
-    free_bignum(adder);
+
+    int bit_pos;
+    for (bit_pos = b->arr_size*64 - 1; bit_pos >= 0; bit_pos--)
+        if (((b->arr[bit_pos >> 6] >> (bit_pos & 63)) & 1) == 1) break;
+
+    if (bit_pos == -1) {
+        free_bignum(num);
+        free_bignum(copy);
+        return NULL; // division by 0
+    }
+
+    bitshift_left(copy, bit_pos);
+
+
     return num;
 }
 
