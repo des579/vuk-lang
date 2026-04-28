@@ -152,13 +152,13 @@ int is_bigger(bignum_t* a, bignum_t* b) {
 
         if (a->arr[block] > b->arr[block]) return 1;
         else return 0;
-        block--;
     }
 
 
     return 0; // only if a = 0, b = 0
 }
 
+// a < b?
 int is_lower(bignum_t* a, bignum_t* b) {
     if (!a || !b || a->arr_size != b->arr_size) return -1;
 
@@ -171,12 +171,12 @@ int is_lower(bignum_t* a, bignum_t* b) {
 
         if (a->arr[block] < b->arr[block]) return 1;
         else return 0;
-        block--;
     }
 
     return 0; // only if a = 0, b = 0
 }
 
+// a == b?
 int is_equals(bignum_t* a, bignum_t* b) {
     if (!a || !b || a->arr_size != b->arr_size) return -1;
 

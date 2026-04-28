@@ -38,6 +38,10 @@ int is_lower(bignum_t* a, bignum_t* b);
 // is a == b
 int is_equals(bignum_t* a, bignum_t* b);
 
+#define PRINT_NUMHEX(n) print_hex(n); printf("\n");
+#define SET_NUM_0(n) for (size_t _ = 0; _ < n->arr_size; _++) n->arr[_] = 0;
+
+
 
 
 #endif // NUMBER_H

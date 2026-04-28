@@ -47,7 +47,7 @@ bignum_t* slow_mul(bignum_t* a, bignum_t* b) {
     if (!num || !adder) return NULL;
 
     for (size_t i = 0; i < b->number_size*8; i++) {
-        if (((b->arr[i >> 6] >> (i && 63)) & 1) == 0)
+        if (((b->arr[i >> 6] >> (i & 63)) & 1) == 0)
             continue;
 
         for (size_t j = 0; j < a->arr_size; j++) {
@@ -64,37 +64,32 @@ bignum_t* slow_mul(bignum_t* a, bignum_t* b) {
 
 
 bignum_t* slow_div(bignum_t* a, bignum_t* b, bignum_t* remainder) {
-    if (!a || !b || a->arr_size != b->arr_size
+    if (!a || !remainder || !b || a->arr_size != b->arr_size
         || (remainder && a->arr_size != remainder->arr_size)) return NULL;
 
-    bignum_t* num = create_bignum(a->arr_size * 8);
-    bignum_t* copy = create_copy(b);
-    if (!copy || !num) {
-        return NULL;
+    bignum_t* q = create_bignum(a->arr_size * 8);
+    if (!q) return NULL;
+
+    SET_NUM_0(remainder);
+    
+    size_t numbits = a->arr_size * 64;
+    for (size_t _ = 0; _ < numbits; _++) {
+        size_t i = numbits - 1 - _;
+
+        bitshift_left(remainder, 1);
+        remainder->arr[0] |= ((a->arr[i >> 6] >> (i & 63)) & 1); // set the first bit to 0, to the ith bit of a
+
+        if (is_bigger(remainder, b) || is_equals(remainder, b)) {
+            sub(remainder, b);
+            q->arr[i >> 6] |= (1 << (i & 63));
+        }
     }
 
-    int bit_pos;
-    for (bit_pos = b->arr_size*64 - 1; bit_pos >= 0; bit_pos--)
-        if (((b->arr[bit_pos >> 6] >> (bit_pos & 63)) & 1) == 1) break;
-
-    if (bit_pos == -1) {
-        free_bignum(num);
-        free_bignum(copy);
-        return NULL; // division by 0
-    }
-
-    bitshift_left(copy, bit_pos);
-
-
-    return num;
+    return q;
 }
 
 int strictmul(bignum_t* to, bignum_t* from) {
     if (!to || !from || to->arr_size != from->arr_size) return -1;
-
-
-    
-
     return 0;
 }
 
