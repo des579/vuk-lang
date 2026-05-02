@@ -145,7 +145,7 @@ int is_bigger(bignum_t* a, bignum_t* b) {
 
     int block = a->arr_size - 1;
     for (size_t i = 0; i < a->arr_size; i++) {
-        if (a->arr[block] == 0 && b->arr[block] == 0) {
+        if ((a->arr[block] == 0 && b->arr[block] == 0) || a->arr[block] == b->arr[block]) {
             block--;
             continue;
         }
@@ -164,7 +164,7 @@ int is_lower(bignum_t* a, bignum_t* b) {
 
     int block = a->arr_size - 1;
     for (size_t i = 0; i < a->arr_size; i++) {
-        if (a->arr[block] == 0 && b->arr[block] == 0) {
+        if ((a->arr[block] == 0 && b->arr[block] == 0) || a->arr[block] == b->arr[block]) {
             block--;
             continue;
         }

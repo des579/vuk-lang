@@ -1,0 +1,19 @@
+void main() {
+    uint128 num = 0;
+
+    print_hello();
+    public_stuff(num);
+
+    num += 100;
+    print(num); // this is a comment, the print prints hex
+}
+
+
+static void print_hello() {
+    print("Hello world\n");
+}
+
+func public_stuff(uint128 number) {
+    print(number);
+}
+

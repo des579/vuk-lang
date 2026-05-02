@@ -43,19 +43,17 @@ bignum_t* slow_mul(bignum_t* a, bignum_t* b) {
     if (!a || !b || a->arr_size != b->arr_size) return NULL;
 
     bignum_t* num = create_bignum(a->number_size);
-    bignum_t* adder = create_bignum(a->number_size);
+    bignum_t* adder = create_copy(a);
     if (!num || !adder) return NULL;
 
     for (size_t i = 0; i < b->number_size*8; i++) {
-        if (((b->arr[i >> 6] >> (i & 63)) & 1) == 0)
+        if (((b->arr[i >> 6] >> (i & 63)) & 1) == 0) {
+            bitshift_left(adder, 1);
             continue;
-
-        for (size_t j = 0; j < a->arr_size; j++) {
-            adder->arr[j] = a->arr[j];
         }
 
-        bitshift_left(adder, i);
         add(num, adder);
+        bitshift_left(adder, 1);
     }
     
     free_bignum(adder);
